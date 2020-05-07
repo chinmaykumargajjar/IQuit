@@ -1,17 +1,24 @@
 package com.debugcoder.iquit.controllers;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.debugcoder.iquit.R;
+import com.debugcoder.iquit.models.AddictionUserModel;
+
+import java.util.ArrayList;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
-    private String[] mDataset;
+    private ArrayList<AddictionUserModel> mDataset;
+    NavController navController;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -27,11 +34,13 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             emergencyBtn = v.findViewById(R.id.emergencyBtn);
             viewBtn = v.findViewById(R.id.viewBtn);
         }
+
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public MyAdapter(String[] myDataset) {
+    public MyAdapter(ArrayList<AddictionUserModel> myDataset, NavController navController) {
         mDataset = myDataset;
+        this.navController = navController;
     }
 
     // Create new views (invoked by the layout manager)
@@ -50,13 +59,29 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     public void onBindViewHolder(MyViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.habitName.setText(mDataset[position]);
+        holder.habitName.setText(mDataset.get(position).getAddiction().getName());
+        holder.daysCount.setText(mDataset.get(position).getNumberOfDays()+" Days");
 
+        holder.viewBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //handle the click here.
+                navController.navigate(R.id.action_FirstFragment_to_SecondFragment);
+            }
+        });
+
+        holder.emergencyBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //handle the click here.
+                navController.navigate(R.id.action_FirstFragment_to_EmergencyFragment);
+            }
+        });
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return mDataset.length;
+        return mDataset.size();
     }
 }

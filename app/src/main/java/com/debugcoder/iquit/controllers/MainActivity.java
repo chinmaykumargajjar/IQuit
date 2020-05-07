@@ -8,10 +8,14 @@ import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import static androidx.navigation.fragment.NavHostFragment.findNavController;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,8 +30,9 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+
+                Navigation.findNavController(MainActivity.this,R.id.nav_host_fragment).navigate(R.id.addFragment);
+
             }
         });
     }

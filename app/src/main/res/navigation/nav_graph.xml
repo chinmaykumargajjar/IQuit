@@ -3,26 +3,42 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
+    app:startDestination="@id/HomeFragment">
 
     <fragment
-        android:id="@+id/FirstFragment"
-        android:name="com.debugcoder.iquit.controllers.FirstFragment"
+        android:id="@+id/HomeFragment"
+        android:name="com.debugcoder.iquit.controllers.HomeFragment"
         android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_first">
+        tools:layout="@layout/fragment_home">
 
         <action
             android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
+            app:destination="@id/ViewFragment" />
+        <action
+            android:id="@+id/action_HomeFragment_to_Add_Fragment"
+            app:destination="@id/addFragment" />
+        <action
+            android:id="@+id/action_FirstFragment_to_EmergencyFragment"
+            app:destination="@id/emergencyFragment" />
     </fragment>
     <fragment
-        android:id="@+id/SecondFragment"
-        android:name="com.debugcoder.iquit.controllers.SecondFragment"
+        android:id="@+id/ViewFragment"
+        android:name="com.debugcoder.iquit.controllers.ViewFragment"
         android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second">
+        tools:layout="@layout/fragment_view">
 
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
+            app:destination="@id/HomeFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/addFragment"
+        android:name="com.debugcoder.iquit.AddFragment"
+        android:label="fragment_add"
+        tools:layout="@layout/fragment_add" />
+    <fragment
+        android:id="@+id/emergencyFragment"
+        android:name="com.debugcoder.iquit.EmergencyFragment"
+        android:label="fragment_emergency"
+        tools:layout="@layout/fragment_emergency" />
 </navigation>

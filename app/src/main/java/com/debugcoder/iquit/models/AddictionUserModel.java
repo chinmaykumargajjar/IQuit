@@ -7,24 +7,16 @@ import org.joda.time.Interval;
 import java.util.ArrayList;
 
 public class AddictionUserModel {
-    String name;
     String purpose;
-
-    DateTime startDate = new DateTime();
     ArrayList<DateTime> relapseHistory = new ArrayList<DateTime>();
     DateTime lastRelapse = new DateTime();
     AddictionType addiction;
 
-    public AddictionUserModel() {
-
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public AddictionUserModel(String purpose, ArrayList<DateTime> relapseHistory, DateTime lastRelapse, AddictionType addiction) {
+        this.purpose = purpose;
+        this.relapseHistory = relapseHistory;
+        this.lastRelapse = lastRelapse;
+        this.addiction = addiction;
     }
 
     public String getPurpose() {
@@ -33,14 +25,6 @@ public class AddictionUserModel {
 
     public void setPurpose(String purpose) {
         this.purpose = purpose;
-    }
-
-    public DateTime getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(DateTime startDate) {
-        this.startDate = startDate;
     }
 
     public ArrayList<DateTime> getRelapseHistory() {
@@ -67,8 +51,8 @@ public class AddictionUserModel {
         this.lastRelapse = lastRelapse;
     }
 
-    public int getNumberOfDays() {
+    public long getNumberOfDays() {
         Interval interval = new Interval(lastRelapse, new Instant());
-        return interval.toPeriod().getDays();
+        return interval.toDuration().getStandardDays();
     }
 }

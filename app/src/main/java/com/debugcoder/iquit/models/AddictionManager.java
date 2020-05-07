@@ -1,6 +1,5 @@
 package com.debugcoder.iquit.models;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class AddictionManager {
@@ -18,4 +17,8 @@ public class AddictionManager {
         this.addictionUserModels = addictionUserModels;
     }
 
+    public ArrayList<AddictionUserModel> addNewAddiction(AddictionUserModel addictionUserModel) {
+        addictionUserModels.add(addictionUserModel);
+        return addictionUserModels;
+    }
 }

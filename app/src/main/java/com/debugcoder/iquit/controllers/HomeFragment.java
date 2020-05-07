@@ -8,12 +8,20 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.debugcoder.iquit.R;
+import com.debugcoder.iquit.models.AddictionManager;
+import com.debugcoder.iquit.models.AddictionType;
+import com.debugcoder.iquit.models.AddictionUserModel;
 
-public class FirstFragment extends Fragment {
+import org.joda.time.DateTime;
+
+import java.util.ArrayList;
+
+public class HomeFragment extends Fragment {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
@@ -24,7 +32,7 @@ public class FirstFragment extends Fragment {
             Bundle savedInstanceState
     ) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_first, container, false);
+        return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
     @Override
@@ -38,10 +46,28 @@ public class FirstFragment extends Fragment {
         // use a linear layout manager
         recyclerView.setLayoutManager(layoutManager);
 
-        String[] myDataset = {"Porn Free","Alcohol","Fundays"};
+        AddictionManager addictionManager = new AddictionManager();
+        addictionManager.addNewAddiction(new AddictionUserModel("I really need to stop " +
+                "watching porn",
+                new ArrayList<DateTime>(),
+                new DateTime("2020-1-13T21:39:45.618-08:00"),
+                new AddictionType("Porn  Free")));
+
+        addictionManager.addNewAddiction(new AddictionUserModel("I really need to stop " +
+                "drinking alcohol",
+                new ArrayList<DateTime>(),
+                new DateTime("2019-12-13T21:39:45.618-08:00"),
+                new AddictionType("Alcohol")));
+
+        addictionManager.addNewAddiction(new AddictionUserModel("I really need to stop " +
+                "Biting Nail",
+                new ArrayList<DateTime>(),
+                new DateTime("2020-2-13T21:39:45.618-08:00"),
+                new AddictionType("Nail Bite")));
 
         // specify an adapter (see also next example)
-        mAdapter = new MyAdapter(myDataset);
+        mAdapter = new MyAdapter(addictionManager.getAddictionUserModels(),
+                NavHostFragment.findNavController(HomeFragment.this));
         recyclerView.setAdapter(mAdapter);
     }
 
