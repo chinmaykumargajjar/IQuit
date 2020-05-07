@@ -1,7 +1,8 @@
-package com.debugcoder.iquit;
+package com.debugcoder.iquit.controllers;
 
 import android.os.Bundle;
 
+import com.debugcoder.iquit.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 

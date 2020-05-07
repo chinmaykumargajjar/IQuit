@@ -1,4 +1,4 @@
-package com.debugcoder.iquit;
+package com.debugcoder.iquit.controllers;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
+
+import com.debugcoder.iquit.R;
 
 public class SecondFragment extends Fragment {
 

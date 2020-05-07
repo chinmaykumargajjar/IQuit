@@ -1,4 +1,4 @@
-package com.debugcoder.iquit;
+package com.debugcoder.iquit.controllers;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,9 +8,10 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.debugcoder.iquit.R;
 
 public class FirstFragment extends Fragment {
     private RecyclerView recyclerView;
