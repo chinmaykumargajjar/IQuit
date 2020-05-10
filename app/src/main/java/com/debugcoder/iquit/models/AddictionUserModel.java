@@ -12,11 +12,23 @@ public class AddictionUserModel {
     DateTime lastRelapse = new DateTime();
     AddictionType addiction;
 
-    public AddictionUserModel(String purpose, ArrayList<DateTime> relapseHistory, DateTime lastRelapse, AddictionType addiction) {
+    public AddictionUserModel(String purpose, DateTime lastRelapse, AddictionType addiction) {
         this.purpose = purpose;
         this.relapseHistory = relapseHistory;
-        this.lastRelapse = lastRelapse;
+        addRelapse(lastRelapse);
         this.addiction = addiction;
+    }
+
+    public ArrayList<DateTime> getRelapseHistory() {
+        return relapseHistory;
+    }
+
+    public ArrayList<String> getRelapseHistoryString() {
+        ArrayList<String> returnList = new ArrayList<>();
+        for(DateTime dateTime:relapseHistory){
+            returnList.add(Utilities.getStringFromDate(dateTime));
+        }
+        return returnList;
     }
 
     public String getPurpose() {
@@ -25,10 +37,6 @@ public class AddictionUserModel {
 
     public void setPurpose(String purpose) {
         this.purpose = purpose;
-    }
-
-    public ArrayList<DateTime> getRelapseHistory() {
-        return relapseHistory;
     }
 
     public void setRelapseHistory(ArrayList<DateTime> relapseHistory) {
@@ -47,12 +55,20 @@ public class AddictionUserModel {
         return lastRelapse;
     }
 
-    public void setLastRelapse(DateTime lastRelapse) {
-        this.lastRelapse = lastRelapse;
+    public long getNumberOfDays(DateTime lastRelapse) {
+        if (lastRelapse == null) {
+            lastRelapse = this.lastRelapse;
+        }
+        try {
+            Interval interval = new Interval(lastRelapse, new Instant());
+            return interval.toDuration().getStandardDays();
+        } catch(IllegalArgumentException e){
+            return -1;
+        }
     }
 
-    public long getNumberOfDays() {
-        Interval interval = new Interval(lastRelapse, new Instant());
-        return interval.toDuration().getStandardDays();
+    public void addRelapse(DateTime relapse){
+        lastRelapse = relapse;
+        relapseHistory.add(relapse);
     }
 }

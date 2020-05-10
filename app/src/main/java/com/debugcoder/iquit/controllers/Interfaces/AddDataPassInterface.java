@@ -4,4 +4,6 @@ import com.debugcoder.iquit.models.AddictionUserModel;
 
 public interface AddDataPassInterface {
     public void passData(AddictionUserModel data);
+
+    public void goToViewFragment(int index);
 }

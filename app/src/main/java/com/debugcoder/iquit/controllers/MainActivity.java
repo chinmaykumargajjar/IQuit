@@ -29,6 +29,7 @@ import static androidx.navigation.fragment.NavHostFragment.findNavController;
 public class MainActivity extends AppCompatActivity implements AddDataPassInterface {
     FloatingActionButton fab;
     AddictionManager addictionManager;
+    int position=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,17 +48,6 @@ public class MainActivity extends AppCompatActivity implements AddDataPassInterf
         });
 
         addictionManager = new AddictionManager();
-        addictionManager.addNewAddiction(new AddictionUserModel("I really need to stop " +
-                "watching porn",
-                new ArrayList<DateTime>(),
-                new DateTime("2020-1-13T21:39:45.618-08:00"),
-                new AddictionType("Porn  Free")));
-
-        addictionManager.addNewAddiction(new AddictionUserModel("I really need to stop " +
-                "drinking alcohol",
-                new ArrayList<DateTime>(),
-                new DateTime("2019-12-13T21:39:45.618-08:00"),
-                new AddictionType("Alcohol")));
 
     }
 
@@ -88,4 +78,13 @@ public class MainActivity extends AppCompatActivity implements AddDataPassInterf
         Log.i("CheckInfo","Addiction passed "+data.getAddiction().getName());
         addictionManager.addNewAddiction(data);
     }
+
+    @Override
+    public void goToViewFragment(int index) {
+        position = index;
+        Navigation.findNavController(MainActivity.this,R.id.nav_host_fragment)
+                .navigate(R.id.ViewFragment);
+    }
+
+
 }

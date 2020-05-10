@@ -1,5 +1,6 @@
 package com.debugcoder.iquit.controllers;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.debugcoder.iquit.R;
 import com.debugcoder.iquit.controllers.Adapters.HomeListAdapter;
+import com.debugcoder.iquit.controllers.Interfaces.AddDataPassInterface;
 import com.debugcoder.iquit.models.AddictionManager;
 import com.debugcoder.iquit.models.AddictionType;
 import com.debugcoder.iquit.models.AddictionUserModel;
@@ -27,6 +29,7 @@ public class HomeFragment extends Fragment {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private MainActivity mainActivity;
+    AddDataPassInterface addDataPassInterface;
 
     @Override
     public View onCreateView(
@@ -35,6 +38,21 @@ public class HomeFragment extends Fragment {
     ) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false);
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        // This makes sure that the host activity has implemented the callback interface
+        // If not, it throws an exception
+        try
+        {
+            addDataPassInterface = (MainActivity) this.getActivity();
+        }
+        catch (ClassCastException e)
+        {
+            throw new ClassCastException(context.toString()+ " must implement OnImageClickListener");
+        }
     }
 
     @Override
@@ -50,7 +68,8 @@ public class HomeFragment extends Fragment {
 
         // specify an adapter (see also next example)
         mAdapter = new HomeListAdapter(mainActivity.addictionManager.getAddictionUserModels(),
-                NavHostFragment.findNavController(HomeFragment.this));
+                NavHostFragment.findNavController(HomeFragment.this),
+                addDataPassInterface);
         recyclerView.setAdapter(mAdapter);
     }
 

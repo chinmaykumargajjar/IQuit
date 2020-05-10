@@ -21,4 +21,8 @@ public class AddictionManager {
         addictionUserModels.add(addictionUserModel);
         return addictionUserModels;
     }
+
+    public AddictionUserModel getItemAtPosition(int index){
+        return addictionUserModels.get(index);
+    }
 }

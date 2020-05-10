@@ -11,6 +11,7 @@ import androidx.navigation.NavController;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.debugcoder.iquit.R;
+import com.debugcoder.iquit.controllers.Interfaces.AddDataPassInterface;
 import com.debugcoder.iquit.models.AddictionUserModel;
 
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.MyViewHolder> {
     private ArrayList<AddictionUserModel> mDataset;
     NavController navController;
+    AddDataPassInterface addDataPassInterface;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -37,9 +39,11 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.MyView
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public HomeListAdapter(ArrayList<AddictionUserModel> myDataset, NavController navController) {
-        mDataset = myDataset;
+    public HomeListAdapter(ArrayList<AddictionUserModel> myDataset, NavController navController,
+                           AddDataPassInterface addDataPassInterface) {
+        this.mDataset = myDataset;
         this.navController = navController;
+        this.addDataPassInterface = addDataPassInterface;
     }
 
     // Create new views (invoked by the layout manager)
@@ -55,17 +59,20 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.MyView
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
+    public void onBindViewHolder(MyViewHolder holder, final int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         holder.habitName.setText(mDataset.get(position).getAddiction().getName());
-        holder.daysCount.setText(mDataset.get(position).getNumberOfDays()+" Days");
+        long numberOfDays = mDataset.get(position)
+                .getNumberOfDays(mDataset.get(position).getLastRelapse());
+        if(numberOfDays != -1) {
+            holder.daysCount.setText(mDataset.get(position).getNumberOfDays(null) + " Days");
+        }
 
         holder.viewBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //handle the click here.
-                navController.navigate(R.id.action_FirstFragment_to_SecondFragment);
+                addDataPassInterface.goToViewFragment(position);
             }
         });
 
