@@ -1,12 +1,26 @@
-package com.debugcoder.iquit;
+package com.debugcoder.iquit.controllers;
 
+import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.debugcoder.iquit.R;
+import com.debugcoder.iquit.controllers.Interfaces.AddDataPassInterface;
+import com.debugcoder.iquit.models.AddictionType;
+import com.debugcoder.iquit.models.AddictionUserModel;
+
+import org.joda.time.DateTime;
+
+import java.util.ArrayList;
 
 
 /**
@@ -15,6 +29,8 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class AddFragment extends Fragment {
+    AddDataPassInterface addDataPassInterface;
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -47,6 +63,21 @@ public class AddFragment extends Fragment {
     }
 
     @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        // This makes sure that the host activity has implemented the callback interface
+        // If not, it throws an exception
+        try
+        {
+            addDataPassInterface = (MainActivity) this.getActivity();
+        }
+        catch (ClassCastException e)
+        {
+            throw new ClassCastException(context.toString()+ " must implement OnImageClickListener");
+        }
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
@@ -59,6 +90,25 @@ public class AddFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
         return inflater.inflate(R.layout.fragment_add, container, false);
+
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        view.findViewById(R.id.add_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addDataPassInterface.passData(new AddictionUserModel("I really need to stop " +
+                        "Biting Nail",
+                        new ArrayList<DateTime>(),
+                        new DateTime("2020-2-13T21:39:45.618-08:00"),
+                        new AddictionType("Test Pass")));
+                NavHostFragment.findNavController(AddFragment.this)
+                        .navigate(R.id.from_Add_to_Home_Fragment);
+            }
+        });
     }
 }

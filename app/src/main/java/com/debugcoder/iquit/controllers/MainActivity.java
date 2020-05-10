@@ -3,6 +3,10 @@ package com.debugcoder.iquit.controllers;
 import android.os.Bundle;
 
 import com.debugcoder.iquit.R;
+import com.debugcoder.iquit.controllers.Interfaces.AddDataPassInterface;
+import com.debugcoder.iquit.models.AddictionManager;
+import com.debugcoder.iquit.models.AddictionType;
+import com.debugcoder.iquit.models.AddictionUserModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -11,13 +15,20 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import org.joda.time.DateTime;
+
+import java.util.ArrayList;
+
 import static androidx.navigation.fragment.NavHostFragment.findNavController;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AddDataPassInterface {
+    FloatingActionButton fab;
+    AddictionManager addictionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,15 +37,28 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
+        fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 Navigation.findNavController(MainActivity.this,R.id.nav_host_fragment).navigate(R.id.addFragment);
-
+                fab.hide();
             }
         });
+
+        addictionManager = new AddictionManager();
+        addictionManager.addNewAddiction(new AddictionUserModel("I really need to stop " +
+                "watching porn",
+                new ArrayList<DateTime>(),
+                new DateTime("2020-1-13T21:39:45.618-08:00"),
+                new AddictionType("Porn  Free")));
+
+        addictionManager.addNewAddiction(new AddictionUserModel("I really need to stop " +
+                "drinking alcohol",
+                new ArrayList<DateTime>(),
+                new DateTime("2019-12-13T21:39:45.618-08:00"),
+                new AddictionType("Alcohol")));
+
     }
 
     @Override
@@ -57,5 +81,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void passData(AddictionUserModel data) {
+        Log.i("CheckInfo","Addiction passed "+data.getAddiction().getName());
+        addictionManager.addNewAddiction(data);
     }
 }

@@ -33,12 +33,17 @@
     </fragment>
     <fragment
         android:id="@+id/addFragment"
-        android:name="com.debugcoder.iquit.AddFragment"
+        android:name="com.debugcoder.iquit.controllers.AddFragment"
         android:label="fragment_add"
-        tools:layout="@layout/fragment_add" />
+        tools:layout="@layout/fragment_add" >
+        <action
+            android:id="@+id/from_Add_to_Home_Fragment"
+            app:destination="@id/HomeFragment"
+            app:exitAnim="@anim/fragment_close_exit" />
+    </fragment>
     <fragment
         android:id="@+id/emergencyFragment"
-        android:name="com.debugcoder.iquit.EmergencyFragment"
+        android:name="com.debugcoder.iquit.controllers.EmergencyFragment"
         android:label="fragment_emergency"
         tools:layout="@layout/fragment_emergency" />
 </navigation>

@@ -1,4 +1,4 @@
-package com.debugcoder.iquit.controllers;
+package com.debugcoder.iquit.controllers.Adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.navigation.NavController;
-import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.debugcoder.iquit.R;
@@ -16,7 +15,7 @@ import com.debugcoder.iquit.models.AddictionUserModel;
 
 import java.util.ArrayList;
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
+public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.MyViewHolder> {
     private ArrayList<AddictionUserModel> mDataset;
     NavController navController;
 
@@ -38,15 +37,15 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public MyAdapter(ArrayList<AddictionUserModel> myDataset, NavController navController) {
+    public HomeListAdapter(ArrayList<AddictionUserModel> myDataset, NavController navController) {
         mDataset = myDataset;
         this.navController = navController;
     }
 
     // Create new views (invoked by the layout manager)
     @Override
-    public MyAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent,
-                                                     int viewType) {
+    public HomeListAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent,
+                                                           int viewType) {
         // create a new view
         ConstraintLayout v = (ConstraintLayout) LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.habits_main_rv_raw, parent, false);
