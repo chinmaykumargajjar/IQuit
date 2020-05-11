@@ -14,7 +14,6 @@ public class AddictionUserModel {
 
     public AddictionUserModel(String purpose, DateTime lastRelapse, AddictionType addiction) {
         this.purpose = purpose;
-        this.relapseHistory = relapseHistory;
         addRelapse(lastRelapse);
         this.addiction = addiction;
     }

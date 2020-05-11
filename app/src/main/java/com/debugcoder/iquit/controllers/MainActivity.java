@@ -86,5 +86,12 @@ public class MainActivity extends AppCompatActivity implements AddDataPassInterf
                 .navigate(R.id.ViewFragment);
     }
 
+    @Override
+    public void goToEmergencyFragment(int index) {
+        position = index;
+        Navigation.findNavController(MainActivity.this,R.id.nav_host_fragment)
+                .navigate(R.id.emergencyFragment);
+    }
+
 
 }

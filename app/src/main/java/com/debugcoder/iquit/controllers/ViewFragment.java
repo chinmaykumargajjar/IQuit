@@ -100,6 +100,7 @@ public class ViewFragment extends Fragment {
                                     relapseHistory.clear();
                                     relapseHistory.addAll(positionModel.getRelapseHistoryString());
                                     adapter.notifyDataSetChanged();
+                                    relapseHistory_lv.smoothScrollToPosition(relapseHistory.size());
                                 }
                             }
                         }, year, month, day);

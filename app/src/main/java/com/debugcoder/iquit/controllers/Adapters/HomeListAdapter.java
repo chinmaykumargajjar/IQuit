@@ -80,7 +80,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.MyView
             @Override
             public void onClick(View v) {
                 //handle the click here.
-                navController.navigate(R.id.action_FirstFragment_to_EmergencyFragment);
+                addDataPassInterface.goToEmergencyFragment(position);
             }
         });
     }
