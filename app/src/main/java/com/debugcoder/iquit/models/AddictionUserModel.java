@@ -22,14 +22,6 @@ public class AddictionUserModel {
         return relapseHistory;
     }
 
-    public ArrayList<String> getRelapseHistoryString() {
-        ArrayList<String> returnList = new ArrayList<>();
-        for(DateTime dateTime:relapseHistory){
-            returnList.add(Utilities.getStringFromDate(dateTime));
-        }
-        return returnList;
-    }
-
     public String getPurpose() {
         return purpose;
     }

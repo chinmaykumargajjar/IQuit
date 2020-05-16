@@ -95,20 +95,26 @@ public class AddFragment extends Fragment {
         view.findViewById(R.id.add_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 String addictionName = chooseAddSpinner.getSelectedItem().toString();
-                String purpose = purposeEt.getText().toString();
+                if (!((MainActivity)getActivity())
+                        .addictionManager
+                        .doesAddictionExist(addictionName) &&
+                        chooseAddSpinner.getSelectedItemPosition() != 0) {
+                    String purpose = purposeEt.getText().toString();
 
-                addictionUserModel = new AddictionUserModel(purpose,
-                        updatedRelapseDate,
-                        new AddictionType(addictionName));
+                    addictionUserModel = new AddictionUserModel(purpose,
+                            updatedRelapseDate,
+                            new AddictionType(addictionName));
 
-                if(addictionUserModel.getNumberOfDays(null) != -1){
-                    addDataPassInterface.passData(addictionUserModel);
-                    NavHostFragment.findNavController(AddFragment.this)
-                            .navigate(R.id.from_Add_to_Home_Fragment);
-                } else {
-                    Snackbar.make(view, R.string.date_selection, Snackbar.LENGTH_SHORT)
-                            .show();
+                    if (addictionUserModel.getNumberOfDays(null) != -1) {
+                        addDataPassInterface.passData(addictionUserModel);
+                        NavHostFragment.findNavController(AddFragment.this)
+                                .navigate(R.id.from_Add_to_Home_Fragment);
+                    } else {
+                        Snackbar.make(view, R.string.date_selection, Snackbar.LENGTH_SHORT)
+                                .show();
+                    }
                 }
             }
         });

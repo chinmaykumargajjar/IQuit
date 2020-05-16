@@ -25,4 +25,13 @@ public class AddictionManager {
     public AddictionUserModel getItemAtPosition(int index){
         return addictionUserModels.get(index);
     }
+
+    public boolean doesAddictionExist(String addictionName){
+        for(AddictionUserModel obj:addictionUserModels){
+            if(obj.getAddiction().getName().equals(addictionName)){
+                return true;
+            }
+        }
+        return false;
+    }
 }

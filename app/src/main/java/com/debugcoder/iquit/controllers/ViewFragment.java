@@ -35,9 +35,16 @@ public class ViewFragment extends Fragment {
     TextView daysViewTv;
     ListView relapseHistory_lv;
     ArrayAdapter adapter;
-    ArrayList<String> relapseHistory;
+    ArrayList<String> relapseHistory = new ArrayList<String>();;
 
     public ViewFragment() {
+    }
+
+    public void updateRelapseDataAdapter(){
+        relapseHistory.clear();
+        for(DateTime dateTime:positionModel.getRelapseHistory()){
+            relapseHistory.add(Utilities.getStringFromDate(dateTime));
+        }
     }
 
     @Override
@@ -64,7 +71,7 @@ public class ViewFragment extends Fragment {
         TextView addictionNameViewtv = view.findViewById(R.id.addictionNameViewtv);
         daysViewTv = view.findViewById(R.id.days_view_tv);
         relapseHistory_lv = view.findViewById(R.id.relapseHistory_lv);
-        relapseHistory = positionModel.getRelapseHistoryString();
+        updateRelapseDataAdapter();
         adapter=new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_list_item_1,
                 relapseHistory);
@@ -95,10 +102,10 @@ public class ViewFragment extends Fragment {
                                 DateTime updatedRelapseDate = new DateTime(year+"-"+monthOfYear+"-"
                                         +dayOfMonth);
                                 if(setNumberOfDays(view, updatedRelapseDate)) {
+                                    //Add Relapse
                                     positionModel.addRelapse(updatedRelapseDate);
-                                    positionModel.getRelapseHistory();
-                                    relapseHistory.clear();
-                                    relapseHistory.addAll(positionModel.getRelapseHistoryString());
+                                    //update UI
+                                    updateRelapseDataAdapter();
                                     adapter.notifyDataSetChanged();
                                     relapseHistory_lv.smoothScrollToPosition(relapseHistory.size());
                                 }
