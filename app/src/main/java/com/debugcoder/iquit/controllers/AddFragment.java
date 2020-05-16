@@ -23,6 +23,7 @@ import com.debugcoder.iquit.R;
 import com.debugcoder.iquit.controllers.Interfaces.AddDataPassInterface;
 import com.debugcoder.iquit.models.AddictionType;
 import com.debugcoder.iquit.models.AddictionUserModel;
+import com.debugcoder.iquit.models.DeviceCheckResult;
 import com.debugcoder.iquit.models.Utilities;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -95,32 +96,45 @@ public class AddFragment extends Fragment {
         view.findViewById(R.id.add_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                String purpose = purposeEt.getText().toString();
                 String addictionName = chooseAddSpinner.getSelectedItem().toString();
-                if (!((MainActivity)getActivity())
-                        .addictionManager
-                        .doesAddictionExist(addictionName) &&
-                        chooseAddSpinner.getSelectedItemPosition() != 0) {
-                    String purpose = purposeEt.getText().toString();
+                addictionUserModel = new AddictionUserModel(purpose,
+                        updatedRelapseDate,
+                        new AddictionType(addictionName));
 
-                    addictionUserModel = new AddictionUserModel(purpose,
-                            updatedRelapseDate,
-                            new AddictionType(addictionName));
-
-                    if (addictionUserModel.getNumberOfDays(null) != -1) {
-                        addDataPassInterface.passData(addictionUserModel);
-                        NavHostFragment.findNavController(AddFragment.this)
+                if (canAddAddiction(addictionName).isResult()) {
+                    addDataPassInterface.passData(addictionUserModel);
+                    NavHostFragment.findNavController(AddFragment.this)
                                 .navigate(R.id.from_Add_to_Home_Fragment);
-                    } else {
-                        Snackbar.make(view, R.string.date_selection, Snackbar.LENGTH_SHORT)
-                                .show();
-                    }
+                }  else {
+                    Snackbar.make(view,canAddAddiction(addictionName).getResultString(),
+                            Snackbar.LENGTH_SHORT)
+                            .show();
                 }
             }
         });
-
     }
 
+    public DeviceCheckResult canAddAddiction(String addictionName){
+    boolean result = true;
+    String resultString = null;
+    
+    if(((MainActivity)getActivity())
+            .addictionManager
+            .doesAddictionExist(addictionName)){
+        result = false;
+        resultString =addictionName+" already exists!";
+    } else if(chooseAddSpinner.getSelectedItemPosition() == 0){
+        result = false;
+        resultString ="Please select addiction type!";
+    } else if (addictionUserModel.getNumberOfDays(null) == -1){
+        result = false;
+        resultString = getResources().getString(R.string.date_selection);
+    }
+    
+    return new DeviceCheckResult(result,resultString);
+    }
+    
     public void setupSpinner(View view){
         List<String> spinnerArray =  new ArrayList<String>();
         spinnerArray.add("Please select a Item");

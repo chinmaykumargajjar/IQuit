@@ -79,15 +79,12 @@ public class ViewFragment extends Fragment {
 
         addictionNameViewtv.setText(positionModel.getAddiction().getName());
 
-        setNumberOfDays(view, positionModel.getLastRelapse());
-
         setupDatePicker(view);
-
     }
 
-    public void setupDatePicker(View view){
+    public void setupDatePicker(final View setView){
 
-        view.findViewById(R.id.logRelapse_btn).setOnClickListener(new View.OnClickListener() {
+        setView.findViewById(R.id.logRelapse_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Calendar cldr = Calendar.getInstance();
@@ -101,13 +98,16 @@ public class ViewFragment extends Fragment {
                                 monthOfYear++;
                                 DateTime updatedRelapseDate = new DateTime(year+"-"+monthOfYear+"-"
                                         +dayOfMonth);
-                                if(setNumberOfDays(view, updatedRelapseDate)) {
+                                if(canSetNumberOfDays(updatedRelapseDate)) {
                                     //Add Relapse
                                     positionModel.addRelapse(updatedRelapseDate);
                                     //update UI
                                     updateRelapseDataAdapter();
                                     adapter.notifyDataSetChanged();
                                     relapseHistory_lv.smoothScrollToPosition(relapseHistory.size());
+                                } else {
+                                    Snackbar.make(setView, R.string.date_selection, Snackbar.LENGTH_LONG)
+                                                .show();
                                 }
                             }
                         }, year, month, day);
@@ -116,17 +116,13 @@ public class ViewFragment extends Fragment {
         });
     }
 
-    public boolean setNumberOfDays(View view, DateTime updatedRelapseDate){
+    public boolean canSetNumberOfDays(DateTime updatedRelapseDate){
         long numberOfDays = positionModel.getNumberOfDays(updatedRelapseDate);
         if ( numberOfDays != -1) {
             daysViewTv.setText(numberOfDays + " Days");
             return true;
-        } else {
-            Snackbar.make(view, R.string.date_selection, Snackbar.LENGTH_LONG)
-                    .show();
-            return false;
         }
+        return false;
     }
-
 
 }
