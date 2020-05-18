@@ -57,7 +57,7 @@ public class EmergencyFragment extends Fragment {
 
         num_of_days.setText(mainActivity.addictionManager
                 .getItemAtPosition(mainActivity.position)
-                .getNumberOfDays(null)+" Days");
+                .getCurrentStreak()+" Days");
 
         updatePurpose();
     }

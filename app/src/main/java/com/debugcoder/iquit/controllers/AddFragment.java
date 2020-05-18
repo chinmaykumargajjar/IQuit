@@ -128,7 +128,7 @@ public class AddFragment extends Fragment {
     } else if(chooseAddSpinner.getSelectedItemPosition() == 0){
         result = false;
         resultString ="Please select addiction type!";
-    } else if (addictionUserModel.getNumberOfDays(null) == -1){
+    } else if (addictionUserModel.getCurrentStreak() == -1){
         result = false;
         resultString = getResources().getString(R.string.date_selection);
     }

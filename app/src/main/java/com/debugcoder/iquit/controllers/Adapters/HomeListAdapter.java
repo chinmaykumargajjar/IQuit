@@ -64,10 +64,9 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.MyView
         // - replace the contents of the view with that element
         holder.habitName.setText(mDataset.get(position).getAddiction().getName());
         long numberOfDays = mDataset.get(position)
-                .getNumberOfDays(null);
+                .getCurrentStreak();
         if(numberOfDays != -1) {
-            holder.daysCount.setText(mDataset.get(position)
-                    .getNumberOfDays(null) + " Days");
+            holder.daysCount.setText("Current Streak "+numberOfDays + " Days");
         }
 
         holder.viewBtn.setOnClickListener(new View.OnClickListener() {

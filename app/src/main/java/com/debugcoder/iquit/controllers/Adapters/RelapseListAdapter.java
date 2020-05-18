@@ -12,6 +12,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.debugcoder.iquit.R;
+import com.debugcoder.iquit.controllers.Interfaces.AdapterToFragmentInterface;
+import com.debugcoder.iquit.controllers.ViewFragment;
 import com.debugcoder.iquit.models.AddictionUserModel;
 import com.debugcoder.iquit.models.Utilities;
 import com.google.android.material.snackbar.Snackbar;
@@ -23,6 +25,7 @@ import java.util.Date;
 
 public class RelapseListAdapter extends RecyclerView.Adapter<RelapseListAdapter.MyViewHolder> {
     private final AddictionUserModel positionModel;
+    AdapterToFragmentInterface myAdapter;
     String TAG = RelapseListAdapter.class.getName();
 
     // Provide a reference to the views for each data item
@@ -42,8 +45,9 @@ public class RelapseListAdapter extends RecyclerView.Adapter<RelapseListAdapter.
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public RelapseListAdapter(AddictionUserModel positionModel) {
+    public RelapseListAdapter(AddictionUserModel positionModel, ViewFragment viewFragment) {
         this.positionModel = positionModel;
+        this.myAdapter = viewFragment;
         Log.i(TAG, "Adapter Initialized dataset size ="+positionModel.getRelapseHistory().size());
     }
 
@@ -71,8 +75,10 @@ public class RelapseListAdapter extends RecyclerView.Adapter<RelapseListAdapter.
 
         long numberOfDays = positionModel
                 .getNumberOfDays(position);
-        if(numberOfDays != -1) {
-            holder.streakCountTV.setText(numberOfDays + " Days");
+        if(position == 0){
+            holder.streakCountTV.setText("");
+        }else if(numberOfDays != -1) {
+            holder.streakCountTV.setText("Streak Length: "+numberOfDays);
         }
         holder.deleteImageBtn.setTag(position);
         holder.deleteImageBtn.setOnClickListener(new View.OnClickListener() {
@@ -82,6 +88,7 @@ public class RelapseListAdapter extends RecyclerView.Adapter<RelapseListAdapter.
                     Log.i(TAG, "Remove Item at =" + v.getTag());
                     positionModel.removeRelapse(Integer.parseInt(v.getTag().toString()));
                     notifyDataSetChanged();
+                    myAdapter.actNow();
                 } else {
                     Snackbar.make(v, R.string.relapse_del, Snackbar.LENGTH_LONG)
                             .show();

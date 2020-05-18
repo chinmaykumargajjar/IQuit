@@ -8,6 +8,7 @@ import org.joda.time.Interval;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 
 public class AddictionUserModel {
     String purpose;
@@ -49,33 +50,37 @@ public class AddictionUserModel {
         return lastRelapse;
     }
 
-    public long getNumberOfDays(Integer findStreakPosition) {
+    public long getNumberOfDays(int findStreakPosition) {
         Log.i("AddictionUserModel", "getNumberOfDays="+findStreakPosition);
         DateTime previousDateTime = null;
         DateTime currentDateTime = null;
         int currentSize = relapseHistory.size()-1;
 
-        if(findStreakPosition != null && currentSize >= findStreakPosition+1){
+        if(currentSize >= findStreakPosition){
             if(findStreakPosition != 0) {
-                currentDateTime = relapseHistory.get(findStreakPosition + 1);
-                previousDateTime = relapseHistory.get(findStreakPosition);
-            } else {
+                previousDateTime = relapseHistory.get(findStreakPosition - 1);
                 currentDateTime = relapseHistory.get(findStreakPosition);
-                previousDateTime = relapseHistory.get(findStreakPosition);
+            } else {
+                return 0; // No Streak information available
             }
             Log.i("AddictionUserModel","findStreakPosition is not NULL, GREATER!");
-        } else if(findStreakPosition != null && currentSize < findStreakPosition+1){
+        } else if(currentSize < findStreakPosition){
             currentDateTime = new DateTime();
             previousDateTime = relapseHistory.get(findStreakPosition);
             Log.i("AddictionUserModel","findStreakPosition is not NULL, LESS!");
-        } else {
-            currentDateTime = new DateTime();
-            previousDateTime = relapseHistory.get(currentSize);
-            Log.i("AddictionUserModel","findStreakPosition ELSE");
         }
 
         try {
             Interval interval = new Interval(previousDateTime, currentDateTime);
+            return interval.toDuration().getStandardDays();
+        } catch(IllegalArgumentException e){
+            return -1;
+        }
+    }
+
+    public long getCurrentStreak(){
+        try {
+            Interval interval = new Interval(lastRelapse, new DateTime());
             return interval.toDuration().getStandardDays();
         } catch(IllegalArgumentException e){
             return -1;
