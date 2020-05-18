@@ -2,6 +2,7 @@ package com.debugcoder.iquit.controllers;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -79,6 +80,7 @@ public class ViewFragment extends Fragment {
 
         addictionNameViewtv.setText(positionModel.getAddiction().getName());
 
+        canSetNumberOfDays(positionModel.getLastRelapse());
         setupDatePicker(view);
     }
 
@@ -111,6 +113,16 @@ public class ViewFragment extends Fragment {
                                 }
                             }
                         }, year, month, day);
+                picker.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface
+                        .OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (which == DialogInterface.BUTTON_NEGATIVE) {
+                            // Do Stuff
+                            Log.i("dialog click", "dialog negative button clicked");
+                            dialog.dismiss();
+                        }
+                    }
+                });
                 picker.show();
             }
         });

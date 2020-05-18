@@ -55,21 +55,30 @@ public class EmergencyFragment extends Fragment {
                 .getAddiction()
                 .getName());
 
-        addictionPurpose.setText(mainActivity.addictionManager
-                .getItemAtPosition(mainActivity
-                        .position)
-                .getPurpose());
-
         num_of_days.setText(mainActivity.addictionManager
                 .getItemAtPosition(mainActivity.position)
                 .getNumberOfDays(null)+" Days");
 
+        updatePurpose();
     }
 
     public void setEditTextMaxLength(int length, EditText et) {
         InputFilter[] filterArray = new InputFilter[1];
         filterArray[0] = new InputFilter.LengthFilter(length);
         et.setFilters(filterArray);
+    }
+
+    public void updatePurpose(){
+        String purpose = mainActivity.addictionManager
+                .getItemAtPosition(mainActivity
+                        .position)
+                .getPurpose();
+        if (purpose.isEmpty()) {
+            addictionPurpose.setText("Please add reason here, that may help you remind " +
+                    "purpose of why you want to quit this habit.");
+        } else {
+            addictionPurpose.setText(purpose);
+        }
     }
 
     private void setupDialog() {
@@ -91,7 +100,7 @@ public class EmergencyFragment extends Fragment {
                                         .position)
                                 .setPurpose(purposeUpdated);
 
-                        addictionPurpose.setText(purposeUpdated);
+                        updatePurpose();
 
                     }
                 })
