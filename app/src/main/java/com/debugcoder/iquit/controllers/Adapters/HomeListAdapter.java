@@ -30,10 +30,10 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.MyView
         public Button emergencyBtn, viewBtn;
         public MyViewHolder(ConstraintLayout v) {
             super(v);
-            habitName = v.findViewById(R.id.habitName);
-            daysCount = v.findViewById(R.id.daysCountTV);
+            habitName = v.findViewById(R.id.relapseDate);
+            daysCount = v.findViewById(R.id.streakCountTV);
             emergencyBtn = v.findViewById(R.id.emergencyBtn);
-            viewBtn = v.findViewById(R.id.viewBtn);
+            viewBtn = v.findViewById(R.id.delBtn);
         }
 
     }
@@ -64,9 +64,10 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.MyView
         // - replace the contents of the view with that element
         holder.habitName.setText(mDataset.get(position).getAddiction().getName());
         long numberOfDays = mDataset.get(position)
-                .getNumberOfDays(mDataset.get(position).getLastRelapse());
+                .getNumberOfDays(null);
         if(numberOfDays != -1) {
-            holder.daysCount.setText(mDataset.get(position).getNumberOfDays(null) + " Days");
+            holder.daysCount.setText(mDataset.get(position)
+                    .getNumberOfDays(null) + " Days");
         }
 
         holder.viewBtn.setOnClickListener(new View.OnClickListener() {

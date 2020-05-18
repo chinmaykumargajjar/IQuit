@@ -6,4 +6,5 @@
     <color name="buttonBackground">#696060</color>
     <color name="buttonText">#FFFFFF</color>
     <color name="litItemColor">#C6F4BA</color>
+    <color name="relapseHistoryColor">#58D7DCD6</color>
 </resources>

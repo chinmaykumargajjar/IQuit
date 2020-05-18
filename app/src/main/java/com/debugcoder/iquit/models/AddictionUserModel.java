@@ -1,10 +1,13 @@
 package com.debugcoder.iquit.models;
 
+import android.util.Log;
+
 import org.joda.time.DateTime;
 import org.joda.time.Instant;
 import org.joda.time.Interval;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class AddictionUserModel {
     String purpose;
@@ -46,12 +49,33 @@ public class AddictionUserModel {
         return lastRelapse;
     }
 
-    public long getNumberOfDays(DateTime lastRelapse) {
-        if (lastRelapse == null) {
-            lastRelapse = this.lastRelapse;
+    public long getNumberOfDays(Integer findStreakPosition) {
+        Log.i("AddictionUserModel", "getNumberOfDays="+findStreakPosition);
+        DateTime previousDateTime = null;
+        DateTime currentDateTime = null;
+        int currentSize = relapseHistory.size()-1;
+
+        if(findStreakPosition != null && currentSize >= findStreakPosition+1){
+            if(findStreakPosition != 0) {
+                currentDateTime = relapseHistory.get(findStreakPosition + 1);
+                previousDateTime = relapseHistory.get(findStreakPosition);
+            } else {
+                currentDateTime = relapseHistory.get(findStreakPosition);
+                previousDateTime = relapseHistory.get(findStreakPosition);
+            }
+            Log.i("AddictionUserModel","findStreakPosition is not NULL, GREATER!");
+        } else if(findStreakPosition != null && currentSize < findStreakPosition+1){
+            currentDateTime = new DateTime();
+            previousDateTime = relapseHistory.get(findStreakPosition);
+            Log.i("AddictionUserModel","findStreakPosition is not NULL, LESS!");
+        } else {
+            currentDateTime = new DateTime();
+            previousDateTime = relapseHistory.get(currentSize);
+            Log.i("AddictionUserModel","findStreakPosition ELSE");
         }
+
         try {
-            Interval interval = new Interval(lastRelapse, new Instant());
+            Interval interval = new Interval(previousDateTime, currentDateTime);
             return interval.toDuration().getStandardDays();
         } catch(IllegalArgumentException e){
             return -1;
@@ -59,7 +83,14 @@ public class AddictionUserModel {
     }
 
     public void addRelapse(DateTime relapse){
-        lastRelapse = relapse;
         relapseHistory.add(relapse);
+        Collections.sort(relapseHistory);
+        lastRelapse = relapseHistory.get(relapseHistory.size()-1);
+    }
+
+    public void removeRelapse(int position){
+        relapseHistory.remove(position);
+        Collections.sort(relapseHistory);
+        lastRelapse = relapseHistory.get(relapseHistory.size()-1);
     }
 }

@@ -7,5 +7,5 @@
     <string name="next">Next</string>
     <string name="previous">Previous</string>
     <string name="date_selection">Last relapse should not be in future.</string>
-
+    <string name="relapse_del">Please keep at-least one relapse to keep tracking.</string>
 </resources>

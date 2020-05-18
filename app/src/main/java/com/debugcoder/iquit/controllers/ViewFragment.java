@@ -1,26 +1,22 @@
 package com.debugcoder.iquit.controllers;
 
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.debugcoder.iquit.R;
-import com.debugcoder.iquit.controllers.Interfaces.AddDataPassInterface;
-import com.debugcoder.iquit.models.AddictionType;
+import com.debugcoder.iquit.controllers.Adapters.RelapseListAdapter;
 import com.debugcoder.iquit.models.AddictionUserModel;
 import com.debugcoder.iquit.models.Utilities;
 import com.google.android.material.snackbar.Snackbar;
@@ -29,23 +25,14 @@ import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 public class ViewFragment extends Fragment {
     AddictionUserModel positionModel;
     TextView daysViewTv;
-    ListView relapseHistory_lv;
-    ArrayAdapter adapter;
-    ArrayList<String> relapseHistory = new ArrayList<String>();;
+    RecyclerView relapseHistory_rv;
+    RelapseListAdapter adapter;
 
     public ViewFragment() {
-    }
-
-    public void updateRelapseDataAdapter(){
-        relapseHistory.clear();
-        for(DateTime dateTime:positionModel.getRelapseHistory()){
-            relapseHistory.add(Utilities.getStringFromDate(dateTime));
-        }
     }
 
     @Override
@@ -71,17 +58,16 @@ public class ViewFragment extends Fragment {
 
         TextView addictionNameViewtv = view.findViewById(R.id.addictionNameViewtv);
         daysViewTv = view.findViewById(R.id.days_view_tv);
-        relapseHistory_lv = view.findViewById(R.id.relapseHistory_lv);
-        updateRelapseDataAdapter();
-        adapter=new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_list_item_1,
-                relapseHistory);
-        relapseHistory_lv.setAdapter(adapter);
-
         addictionNameViewtv.setText(positionModel.getAddiction().getName());
-
         canSetNumberOfDays(positionModel.getLastRelapse());
         setupDatePicker(view);
+
+        relapseHistory_rv = view.findViewById(R.id.relapseHistory_lv);
+        adapter=new RelapseListAdapter(positionModel);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this.getActivity());
+        relapseHistory_rv.setHasFixedSize(true);
+        relapseHistory_rv.setLayoutManager(layoutManager);
+        relapseHistory_rv.setAdapter(adapter);
     }
 
     public void setupDatePicker(final View setView){
@@ -101,12 +87,12 @@ public class ViewFragment extends Fragment {
                                 DateTime updatedRelapseDate = new DateTime(year+"-"+monthOfYear+"-"
                                         +dayOfMonth);
                                 if(canSetNumberOfDays(updatedRelapseDate)) {
-                                    //Add Relapse
                                     positionModel.addRelapse(updatedRelapseDate);
-                                    //update UI
-                                    updateRelapseDataAdapter();
                                     adapter.notifyDataSetChanged();
-                                    relapseHistory_lv.smoothScrollToPosition(relapseHistory.size());
+                                    relapseHistory_rv.smoothScrollToPosition(positionModel
+                                            .getRelapseHistory()
+                                            .size());
+
                                 } else {
                                     Snackbar.make(setView, R.string.date_selection, Snackbar.LENGTH_LONG)
                                                 .show();
@@ -129,7 +115,7 @@ public class ViewFragment extends Fragment {
     }
 
     public boolean canSetNumberOfDays(DateTime updatedRelapseDate){
-        long numberOfDays = positionModel.getNumberOfDays(updatedRelapseDate);
+        long numberOfDays = positionModel.getNumberOfDays(null);
         if ( numberOfDays != -1) {
             daysViewTv.setText(numberOfDays + " Days");
             return true;
