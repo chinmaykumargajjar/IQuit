@@ -58,7 +58,7 @@ public class AddFragment extends Fragment {
         // If not, it throws an exception
         Calendar cal = Calendar.getInstance();
         int year = cal.get(Calendar.YEAR);
-        int month = cal.get(Calendar.MONTH);
+        int month = cal.get(Calendar.MONTH)+1;
         int day = cal.get(Calendar.DAY_OF_MONTH);
         updatedRelapseDate = new DateTime(year+"-"+month+"-"
                 +day);
@@ -178,6 +178,7 @@ public class AddFragment extends Fragment {
                                 monthOfYear++;
                                 updatedRelapseDate = new DateTime(year+"-"+monthOfYear+"-"
                                         +dayOfMonth);
+
                                 lastRelapseDate_tv.setText(Utilities
                                         .getStringFromDate(updatedRelapseDate));
                             }

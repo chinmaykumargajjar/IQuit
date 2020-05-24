@@ -111,13 +111,13 @@ public class ViewFragment extends Fragment implements AdapterToFragmentInterface
         });
     }
 
-    public boolean setNumberOfDays() {
+    public void setNumberOfDays() {
         long numberOfDays = positionModel.getCurrentStreak();
-        if (numberOfDays != -2) {
+        Log.i(ViewFragment.class.toString(), "setNumberOfDays="+numberOfDays);
+
+        if (numberOfDays > -1) {
             daysViewTv.setText(numberOfDays + " Days");
-            return true;
         }
-        return false;
     }
 
     @Override

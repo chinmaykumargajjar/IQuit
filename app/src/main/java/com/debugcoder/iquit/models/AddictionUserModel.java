@@ -81,12 +81,17 @@ public class AddictionUserModel {
     }
 
     public long getCurrentStreak(){
+        long currentStreak = 0;
         try {
             Interval interval = new Interval(lastRelapse, new DateTime());
-            return interval.toDuration().getStandardDays()-1;
+            currentStreak = interval.toDuration().getStandardDays()-1;
         } catch(IllegalArgumentException e){
-            return -2;
+            currentStreak = -2;
         }
+        if(currentStreak<0){
+            currentStreak=0;
+        }
+        return currentStreak;
     }
 
     public long getStreakFromDate(DateTime updatedRelapseDate){
