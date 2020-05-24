@@ -2,6 +2,8 @@ package com.debugcoder.iquit.models;
 
 import android.util.Log;
 
+import com.google.android.material.tabs.TabLayout;
+
 import org.joda.time.DateTime;
 import org.joda.time.Instant;
 import org.joda.time.Interval;
@@ -57,22 +59,22 @@ public class AddictionUserModel {
         int currentSize = relapseHistory.size()-1;
 
         if(currentSize >= findStreakPosition){
-            if(findStreakPosition != 0) {
-                previousDateTime = relapseHistory.get(findStreakPosition - 1);
+            if(findStreakPosition != relapseHistory.size()-1) {
+                previousDateTime = relapseHistory.get(findStreakPosition+1);
                 currentDateTime = relapseHistory.get(findStreakPosition);
             } else {
                 return 0; // No Streak information available
             }
             Log.i("AddictionUserModel","findStreakPosition is not NULL, GREATER!");
         } else if(currentSize < findStreakPosition){
-            currentDateTime = new DateTime();
-            previousDateTime = relapseHistory.get(findStreakPosition);
+            currentDateTime = relapseHistory.get(findStreakPosition);
+            previousDateTime = new DateTime();
             Log.i("AddictionUserModel","findStreakPosition is not NULL, LESS!");
         }
 
         try {
             Interval interval = new Interval(previousDateTime, currentDateTime);
-            return interval.toDuration().getStandardDays();
+            return interval.toDuration().getStandardDays()-1;
         } catch(IllegalArgumentException e){
             return -1;
         }
@@ -81,21 +83,36 @@ public class AddictionUserModel {
     public long getCurrentStreak(){
         try {
             Interval interval = new Interval(lastRelapse, new DateTime());
-            return interval.toDuration().getStandardDays();
+            return interval.toDuration().getStandardDays()-1;
         } catch(IllegalArgumentException e){
-            return -1;
+            return -2;
         }
     }
 
+    public long getStreakFromDate(DateTime updatedRelapseDate){
+        Log.i("getSteakFromDate",updatedRelapseDate.toString());
+        try {
+            Interval interval = new Interval(updatedRelapseDate, new DateTime());
+            long ans = interval.toDuration().getStandardDays()-1;
+            Log.i("getSteakFromDate","ans="+ans);
+            return ans;
+        } catch(IllegalArgumentException e){
+            Log.i("getSteakFromDate","Return -2");
+            return -2;
+        }
+    }
     public void addRelapse(DateTime relapse){
         relapseHistory.add(relapse);
-        Collections.sort(relapseHistory);
-        lastRelapse = relapseHistory.get(relapseHistory.size()-1);
+        sortRelapseHistory();
     }
 
     public void removeRelapse(int position){
         relapseHistory.remove(position);
-        Collections.sort(relapseHistory);
-        lastRelapse = relapseHistory.get(relapseHistory.size()-1);
+        sortRelapseHistory();
+    }
+
+    public void sortRelapseHistory(){
+        Collections.sort(relapseHistory, Collections.reverseOrder());
+        lastRelapse = relapseHistory.get(0);
     }
 }

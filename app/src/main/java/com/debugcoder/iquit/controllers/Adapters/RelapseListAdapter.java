@@ -75,7 +75,7 @@ public class RelapseListAdapter extends RecyclerView.Adapter<RelapseListAdapter.
 
         long numberOfDays = positionModel
                 .getNumberOfDays(position);
-        if(position == 0){
+        if(position == positionModel.getRelapseHistory().size()-1){
             holder.streakCountTV.setText("");
         }else if(numberOfDays != -1) {
             holder.streakCountTV.setText("Streak Length: "+numberOfDays);

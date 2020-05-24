@@ -30,10 +30,13 @@ import com.google.android.material.snackbar.Snackbar;
 
 import org.joda.time.DateTime;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
 
 /**
@@ -45,7 +48,7 @@ public class AddFragment extends Fragment {
     AddictionUserModel addictionUserModel;
     Spinner chooseAddSpinner;
     EditText purposeEt;
-    DateTime updatedRelapseDate = new DateTime();
+    DateTime updatedRelapseDate;
     TextView lastRelapseDate_tv;
 
     @Override
@@ -53,6 +56,12 @@ public class AddFragment extends Fragment {
         super.onAttach(context);
         // This makes sure that the host activity has implemented the callback interface
         // If not, it throws an exception
+        Calendar cal = Calendar.getInstance();
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH);
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+        updatedRelapseDate = new DateTime(year+"-"+month+"-"
+                +day);
         try
         {
             addDataPassInterface = (MainActivity) this.getActivity();
@@ -128,7 +137,7 @@ public class AddFragment extends Fragment {
     } else if(chooseAddSpinner.getSelectedItemPosition() == 0){
         result = false;
         resultString ="Please select addiction type!";
-    } else if (addictionUserModel.getCurrentStreak() == -1){
+    } else if (addictionUserModel.getCurrentStreak() <= -2){
         result = false;
         resultString = getResources().getString(R.string.date_selection);
     }
@@ -143,6 +152,7 @@ public class AddFragment extends Fragment {
         spinnerArray.add("Alcohol");
         spinnerArray.add("PornFree");
         spinnerArray.add("SocialMedia");
+        spinnerArray.add("Netflix");
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                 getActivity(), android.R.layout.simple_spinner_item, spinnerArray);
