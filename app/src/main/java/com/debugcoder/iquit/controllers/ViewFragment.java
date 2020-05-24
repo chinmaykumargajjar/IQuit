@@ -19,11 +19,16 @@ import com.debugcoder.iquit.R;
 import com.debugcoder.iquit.controllers.Adapters.RelapseListAdapter;
 import com.debugcoder.iquit.controllers.Interfaces.AdapterToFragmentInterface;
 import com.debugcoder.iquit.models.AddictionUserModel;
+import com.debugcoder.iquit.models.Utilities;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import java.util.Calendar;
+import java.util.TimeZone;
 
 public class ViewFragment extends Fragment implements AdapterToFragmentInterface {
     AddictionUserModel positionModel;
@@ -31,6 +36,8 @@ public class ViewFragment extends Fragment implements AdapterToFragmentInterface
     RecyclerView relapseHistory_rv;
     RelapseListAdapter adapter;
     DateTime updatedRelapseDate;
+    String TAG = ViewFragment.class.toString();
+
     public ViewFragment() {
     }
 
@@ -50,6 +57,7 @@ public class ViewFragment extends Fragment implements AdapterToFragmentInterface
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Log.i(TAG,"ViewFragment Created!");
         positionModel = ((MainActivity) getActivity()).addictionManager
                 .getItemAtPosition(((MainActivity) getActivity()).position);
         MainActivity mainActivity = (MainActivity) getActivity();
@@ -82,11 +90,11 @@ public class ViewFragment extends Fragment implements AdapterToFragmentInterface
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                                Log.i(TAG,"Date Picker ok clicked!");
                                 monthOfYear++;
-                                updatedRelapseDate = new DateTime(year + "-" + monthOfYear + "-"
-                                        + dayOfMonth);
+                                updatedRelapseDate = Utilities.getDateFromNumbers(dayOfMonth,monthOfYear,year);
 
-                                if (positionModel.getStreakFromDate(updatedRelapseDate) > -1) {
+                                if (positionModel.getStreakFromDates(updatedRelapseDate, new DateTime()) > -1) {
                                     positionModel.addRelapse(updatedRelapseDate);
                                     adapter.notifyDataSetChanged();
                                     setNumberOfDays();
@@ -101,7 +109,7 @@ public class ViewFragment extends Fragment implements AdapterToFragmentInterface
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == DialogInterface.BUTTON_NEGATIVE) {
                             // Do Stuff
-                            Log.i("dialog click", "dialog negative button clicked");
+                            Log.i(TAG, "Date Picker negative button clicked");
                             dialog.dismiss();
                         }
                     }
@@ -113,7 +121,7 @@ public class ViewFragment extends Fragment implements AdapterToFragmentInterface
 
     public void setNumberOfDays() {
         long numberOfDays = positionModel.getCurrentStreak();
-        Log.i(ViewFragment.class.toString(), "setNumberOfDays="+numberOfDays);
+        Log.i(TAG, "setNumberOfDays="+numberOfDays);
 
         if (numberOfDays > -1) {
             daysViewTv.setText(numberOfDays + " Days");

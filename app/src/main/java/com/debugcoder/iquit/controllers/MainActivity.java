@@ -20,6 +20,8 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import net.danlew.android.joda.JodaTimeAndroid;
+
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
@@ -36,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements AddDataPassInterf
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
+        JodaTimeAndroid.init(this);
         setSupportActionBar(toolbar);
 
         fab = findViewById(R.id.fab);

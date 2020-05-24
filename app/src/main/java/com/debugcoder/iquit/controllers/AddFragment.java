@@ -29,6 +29,9 @@ import com.debugcoder.iquit.models.Utilities;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -50,6 +53,7 @@ public class AddFragment extends Fragment {
     EditText purposeEt;
     DateTime updatedRelapseDate;
     TextView lastRelapseDate_tv;
+    String TAG = AddFragment.class.toString();
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -89,6 +93,7 @@ public class AddFragment extends Fragment {
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setupSpinner(view);
+        Log.i(TAG, "Add fragment onViewCreated!");
         purposeEt =  view.findViewById(R.id.purpose_edittext);
         lastRelapseDate_tv = view.findViewById(R.id.lastRelapseDate_tv);
         lastRelapseDate_tv.setText(Utilities
@@ -106,6 +111,7 @@ public class AddFragment extends Fragment {
         view.findViewById(R.id.add_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.i(TAG, "Add Button Clicked!");
                 String purpose = purposeEt.getText().toString();
                 String addictionName = chooseAddSpinner.getSelectedItem().toString();
                 addictionUserModel = new AddictionUserModel(purpose,
@@ -176,8 +182,8 @@ public class AddFragment extends Fragment {
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                                 monthOfYear++;
-                                updatedRelapseDate = new DateTime(year+"-"+monthOfYear+"-"
-                                        +dayOfMonth);
+
+                                updatedRelapseDate = Utilities.getDateFromNumbers(dayOfMonth,monthOfYear,year);
 
                                 lastRelapseDate_tv.setText(Utilities
                                         .getStringFromDate(updatedRelapseDate));

@@ -2,21 +2,18 @@ package com.debugcoder.iquit.models;
 
 import android.util.Log;
 
-import com.google.android.material.tabs.TabLayout;
-
 import org.joda.time.DateTime;
-import org.joda.time.Instant;
 import org.joda.time.Interval;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 
 public class AddictionUserModel {
     String purpose;
     ArrayList<DateTime> relapseHistory = new ArrayList<DateTime>();
     DateTime lastRelapse = new DateTime();
     AddictionType addiction;
+    String TAG = AddictionUserModel.class.toString();
 
     public AddictionUserModel(String purpose, DateTime lastRelapse, AddictionType addiction) {
         this.purpose = purpose;
@@ -53,58 +50,56 @@ public class AddictionUserModel {
     }
 
     public long getNumberOfDays(int findStreakPosition) {
-        Log.i("AddictionUserModel", "getNumberOfDays="+findStreakPosition);
+        Log.i(TAG, "getNumberOfDays Enter");
+        Log.i(TAG, "Position Asked = "+findStreakPosition);
         DateTime previousDateTime = null;
         DateTime currentDateTime = null;
         int currentSize = relapseHistory.size()-1;
+        long ans = 0;
 
         if(currentSize >= findStreakPosition){
             if(findStreakPosition != relapseHistory.size()-1) {
                 previousDateTime = relapseHistory.get(findStreakPosition+1);
                 currentDateTime = relapseHistory.get(findStreakPosition);
+                Log.i(TAG,"findStreakPosition is not NULL, GREATER!");
             } else {
+                Log.i(TAG,"No Streak Info return 0");
                 return 0; // No Streak information available
             }
-            Log.i("AddictionUserModel","findStreakPosition is not NULL, GREATER!");
         } else if(currentSize < findStreakPosition){
-            currentDateTime = relapseHistory.get(findStreakPosition);
-            previousDateTime = new DateTime();
-            Log.i("AddictionUserModel","findStreakPosition is not NULL, LESS!");
+            currentDateTime = new DateTime();
+            previousDateTime = relapseHistory.get(findStreakPosition);
+            Log.i(TAG,"findStreakPosition is not NULL, LESS!");
         }
 
-        try {
-            Interval interval = new Interval(previousDateTime, currentDateTime);
-            return interval.toDuration().getStandardDays()-1;
-        } catch(IllegalArgumentException e){
-            return -1;
-        }
+        ans = getStreakFromDates(previousDateTime, currentDateTime);
+
+        Log.i(TAG,"getNumberOfDays Done = "+ans );
+        return ans;
     }
 
     public long getCurrentStreak(){
-        long currentStreak = 0;
-        try {
-            Interval interval = new Interval(lastRelapse, new DateTime());
-            currentStreak = interval.toDuration().getStandardDays()-1;
-        } catch(IllegalArgumentException e){
-            currentStreak = -2;
-        }
-        if(currentStreak<0){
-            currentStreak=0;
-        }
-        return currentStreak;
+        Log.i(TAG,"getCurrentStreak Enter");
+        return getStreakFromDates(lastRelapse, new DateTime());
     }
 
-    public long getStreakFromDate(DateTime updatedRelapseDate){
-        Log.i("getSteakFromDate",updatedRelapseDate.toString());
+    public long getStreakFromDates(DateTime updatedRelapseDate, DateTime dateTime){
+        Log.i(TAG,"getStreakFromDates Enter");
+        Log.i(TAG,"Start:"+updatedRelapseDate.toString()+" Zone="+updatedRelapseDate.getZone().getID());
+        Log.i(TAG,"End:"+dateTime.toString()+" Zone="+dateTime.getZone().getID());
+        long ans = 0;
         try {
-            Interval interval = new Interval(updatedRelapseDate, new DateTime());
-            long ans = interval.toDuration().getStandardDays()-1;
-            Log.i("getSteakFromDate","ans="+ans);
-            return ans;
+            Interval interval = new Interval(updatedRelapseDate, dateTime);
+            ans = interval.toDuration().getStandardDays()-1;
+            Log.i(TAG,"ans="+ans);
         } catch(IllegalArgumentException e){
-            Log.i("getSteakFromDate","Return -2");
-            return -2;
+            Log.i(TAG,"Return -2");
+            ans = -2;
         }
+        if(ans == -1){
+            ans=0;
+        }
+        return ans;
     }
     public void addRelapse(DateTime relapse){
         relapseHistory.add(relapse);
