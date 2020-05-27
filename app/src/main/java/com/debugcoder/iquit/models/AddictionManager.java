@@ -26,6 +26,10 @@ public class AddictionManager {
         return addictionUserModels.get(index);
     }
 
+    public AddictionUserModel removeItemAtPosition(int index){
+        return addictionUserModels.remove(index);
+    }
+
     public boolean doesAddictionExist(String addictionName){
         for(AddictionUserModel obj:addictionUserModels){
             if(obj.getAddiction().getName().equals(addictionName)){

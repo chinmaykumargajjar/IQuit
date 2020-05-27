@@ -1,16 +1,21 @@
 package com.debugcoder.iquit.controllers;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -80,6 +85,60 @@ public class HomeFragment extends Fragment {
         } else {
             nothing_found_tv.setVisibility(View.VISIBLE);
         }
+        setupDeleteFunction();
+    }
+
+    public void setupDeleteFunction(){
+        ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT | ItemTouchHelper.DOWN | ItemTouchHelper.UP) {
+
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+                //Remove swiped item from list and notify the RecyclerView
+                int position = viewHolder.getAdapterPosition();
+                String name = mainActivity.addictionManager.getItemAtPosition(position)
+                        .getAddiction()
+                        .getName();
+                confirmDeleteAction(position,name);
+            }
+        };
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
+    }
+
+    public void confirmDeleteAction(final int position, String name){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+        builder.setTitle("Delete "+name+"?");
+        builder.setMessage("This will permanently delete the habit. All recorded data will " +
+                "be erased. Are you sure you want to permanently delete this Habit?");
+
+        builder.setPositiveButton("NO", new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int which) {
+                mAdapter.notifyDataSetChanged();
+                dialog.dismiss();
+            }
+        });
+
+        builder.setNegativeButton("YES", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Do nothing
+                // Do nothing but close the dialog
+                mainActivity.addictionManager.removeItemAtPosition(position);
+                mAdapter.notifyDataSetChanged();
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
