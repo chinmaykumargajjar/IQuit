@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -30,6 +31,7 @@ public class HomeFragment extends Fragment {
     private RecyclerView.LayoutManager layoutManager;
     private MainActivity mainActivity;
     AddDataPassInterface addDataPassInterface;
+    TextView nothing_found_tv;
 
     @Override
     public View onCreateView(
@@ -59,6 +61,7 @@ public class HomeFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         layoutManager = new LinearLayoutManager(this.getActivity());
+
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
         recyclerView.setHasFixedSize(true);
@@ -71,11 +74,18 @@ public class HomeFragment extends Fragment {
                 NavHostFragment.findNavController(HomeFragment.this),
                 addDataPassInterface);
         recyclerView.setAdapter(mAdapter);
+        if(mainActivity.addictionManager != null &&
+                mainActivity.addictionManager.getAddictionUserModels().size() != 0){
+            nothing_found_tv.setVisibility(View.INVISIBLE);
+        } else {
+            nothing_found_tv.setVisibility(View.VISIBLE);
+        }
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         recyclerView = (RecyclerView) view.findViewById(R.id.badHabitsRV);
+        nothing_found_tv = view.findViewById(R.id.nothing_found_tv);
         mainActivity = (MainActivity) getActivity();
         mainActivity.fab.show();
 
