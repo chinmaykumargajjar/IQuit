@@ -1,5 +1,8 @@
 package com.debugcoder.iquit.controllers.Adapters;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,6 +31,7 @@ public class RelapseListAdapter extends RecyclerView.Adapter<RelapseListAdapter.
     private final AddictionUserModel positionModel;
     AdapterToFragmentInterface myAdapter;
     String TAG = RelapseListAdapter.class.getName();
+    Context context;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -45,9 +50,11 @@ public class RelapseListAdapter extends RecyclerView.Adapter<RelapseListAdapter.
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public RelapseListAdapter(AddictionUserModel positionModel, ViewFragment viewFragment) {
+    public RelapseListAdapter(AddictionUserModel positionModel, ViewFragment viewFragment,
+                              Context context) {
         this.positionModel = positionModel;
         this.myAdapter = viewFragment;
+        this.context = context;
         Log.i(TAG, "Adapter Initialized dataset size ="+positionModel.getRelapseHistory().size());
     }
 
@@ -85,16 +92,46 @@ public class RelapseListAdapter extends RecyclerView.Adapter<RelapseListAdapter.
             @Override
             public void onClick(View v) {
                 if(positionModel.getRelapseHistory().size() > 1) {
-                    Log.i(TAG, "Remove Item at =" + v.getTag());
-                    positionModel.removeRelapse(Integer.parseInt(v.getTag().toString()));
-                    notifyDataSetChanged();
-                    myAdapter.actNow();
+                    confirmDeleteAction(v);
                 } else {
                     Snackbar.make(v, R.string.relapse_del, Snackbar.LENGTH_LONG)
                             .show();
                 }
+
             }
         });
+    }
+
+    public void confirmDeleteAction(final View v){
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+        builder.setTitle("Confirm");
+        builder.setMessage("Are you sure you want to delete this relapse?");
+
+        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int which) {
+                // Do nothing but close the dialog
+                Log.i(TAG, "Remove Item at =" + v.getTag());
+                positionModel.removeRelapse(Integer.parseInt(v.getTag().toString()));
+                notifyDataSetChanged();
+                myAdapter.actNow();
+                dialog.dismiss();
+            }
+        });
+
+        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                // Do nothing
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 
     // Return the size of your dataset (invoked by the layout manager)

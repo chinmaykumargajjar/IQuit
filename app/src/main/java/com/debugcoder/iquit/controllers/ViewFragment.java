@@ -70,7 +70,7 @@ public class ViewFragment extends Fragment implements AdapterToFragmentInterface
         setupDatePicker(view);
 
         relapseHistory_rv = view.findViewById(R.id.relapseHistory_lv);
-        adapter = new RelapseListAdapter(positionModel,this);
+        adapter = new RelapseListAdapter(positionModel,this, getActivity());
         LinearLayoutManager layoutManager = new LinearLayoutManager(this.getActivity());
         relapseHistory_rv.setHasFixedSize(true);
         relapseHistory_rv.setLayoutManager(layoutManager);
