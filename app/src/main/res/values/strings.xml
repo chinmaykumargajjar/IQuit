@@ -5,6 +5,7 @@
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
+    <string name="quote">Wake up, Kick Ass, Repeat!</string>
     <string name="previous">Previous</string>
     <string name="date_selection">Last relapse should not be in future.</string>
     <string name="relapse_del">Please keep at-least one relapse to keep tracking.</string>
