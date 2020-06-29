@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "409357110364",
+    "firebase_url": "https://iquit-android.firebaseio.com",
+    "project_id": "iquit-android",
+    "storage_bucket": "iquit-android.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:409357110364:android:f8e8fd6ce2270f8f4fea99",
+        "android_client_info": {
+          "package_name": "com.spicycoder.iquit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "409357110364-0j2clgf4t283cairjuv6pedopsl0rovj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAkmUlNiYYwN0fjO6sD2vkPiUG8EyP3x4I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "409357110364-0j2clgf4t283cairjuv6pedopsl0rovj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
