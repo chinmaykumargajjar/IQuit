@@ -1,4 +1,4 @@
-package com.debugcoder.iquit.controllers;
+package com.spicycoder.iquit.controllers;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -16,7 +16,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.debugcoder.iquit.R;
+import com.spicycoder.iquit.R;
 
 
 public class EmergencyFragment extends Fragment {

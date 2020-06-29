@@ -1,4 +1,4 @@
-package com.debugcoder.iquit.models;
+package com.spicycoder.iquit.models;
 
 import android.util.Log;
 

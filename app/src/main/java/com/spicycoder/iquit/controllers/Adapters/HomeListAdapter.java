@@ -1,4 +1,4 @@
-package com.debugcoder.iquit.controllers.Adapters;
+package com.spicycoder.iquit.controllers.Adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,9 +10,9 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.navigation.NavController;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.debugcoder.iquit.R;
-import com.debugcoder.iquit.controllers.Interfaces.AddDataPassInterface;
-import com.debugcoder.iquit.models.AddictionUserModel;
+import com.spicycoder.iquit.R;
+import com.spicycoder.iquit.controllers.Interfaces.AddDataPassInterface;
+import com.spicycoder.iquit.models.AddictionUserModel;
 
 import java.util.ArrayList;
 

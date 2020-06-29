@@ -1,6 +1,6 @@
-package com.debugcoder.iquit.controllers.Interfaces;
+package com.spicycoder.iquit.controllers.Interfaces;
 
-import com.debugcoder.iquit.models.AddictionUserModel;
+import com.spicycoder.iquit.models.AddictionUserModel;
 
 public interface AddDataPassInterface {
     public void passData(AddictionUserModel data);

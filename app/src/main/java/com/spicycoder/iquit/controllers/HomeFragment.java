@@ -1,15 +1,13 @@
-package com.debugcoder.iquit.controllers;
+package com.spicycoder.iquit.controllers;
 
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,16 +17,9 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.debugcoder.iquit.R;
-import com.debugcoder.iquit.controllers.Adapters.HomeListAdapter;
-import com.debugcoder.iquit.controllers.Interfaces.AddDataPassInterface;
-import com.debugcoder.iquit.models.AddictionManager;
-import com.debugcoder.iquit.models.AddictionType;
-import com.debugcoder.iquit.models.AddictionUserModel;
-
-import org.joda.time.DateTime;
-
-import java.util.ArrayList;
+import com.spicycoder.iquit.R;
+import com.spicycoder.iquit.controllers.Adapters.HomeListAdapter;
+import com.spicycoder.iquit.controllers.Interfaces.AddDataPassInterface;
 
 public class HomeFragment extends Fragment {
     private RecyclerView recyclerView;

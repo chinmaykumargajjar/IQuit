@@ -1,19 +1,16 @@
-package com.debugcoder.iquit.controllers;
+package com.spicycoder.iquit.controllers;
 
 import android.os.Bundle;
 
-import com.debugcoder.iquit.R;
-import com.debugcoder.iquit.controllers.Interfaces.AddDataPassInterface;
-import com.debugcoder.iquit.models.AddictionManager;
-import com.debugcoder.iquit.models.AddictionType;
-import com.debugcoder.iquit.models.AddictionUserModel;
+import com.spicycoder.iquit.R;
+import com.spicycoder.iquit.controllers.Interfaces.AddDataPassInterface;
+import com.spicycoder.iquit.models.AddictionManager;
+import com.spicycoder.iquit.models.AddictionUserModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
 
 import android.util.Log;
 import android.view.View;
@@ -21,12 +18,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import net.danlew.android.joda.JodaTimeAndroid;
-
-import org.joda.time.DateTime;
-
-import java.util.ArrayList;
-
-import static androidx.navigation.fragment.NavHostFragment.findNavController;
 
 public class MainActivity extends AppCompatActivity implements AddDataPassInterface {
     FloatingActionButton fab;

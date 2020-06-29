@@ -1,4 +1,4 @@
-package com.debugcoder.iquit;
+package com.spicycoder.iquit;
 
 import android.content.Context;
 

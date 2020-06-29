@@ -1,4 +1,4 @@
-package com.debugcoder.iquit.controllers;
+package com.spicycoder.iquit.controllers;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
@@ -20,26 +20,19 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.debugcoder.iquit.R;
-import com.debugcoder.iquit.controllers.Interfaces.AddDataPassInterface;
-import com.debugcoder.iquit.models.AddictionType;
-import com.debugcoder.iquit.models.AddictionUserModel;
-import com.debugcoder.iquit.models.DeviceCheckResult;
-import com.debugcoder.iquit.models.Utilities;
+import com.spicycoder.iquit.R;
+import com.spicycoder.iquit.controllers.Interfaces.AddDataPassInterface;
+import com.spicycoder.iquit.models.AddictionType;
+import com.spicycoder.iquit.models.AddictionUserModel;
+import com.spicycoder.iquit.models.DeviceCheckResult;
+import com.spicycoder.iquit.models.Utilities;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
-import java.util.TimeZone;
 
 
 /**

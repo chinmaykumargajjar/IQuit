@@ -1,4 +1,4 @@
-package com.debugcoder.iquit.controllers.Adapters;
+package com.spicycoder.iquit.controllers.Adapters;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -7,25 +7,20 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.debugcoder.iquit.R;
-import com.debugcoder.iquit.controllers.Interfaces.AdapterToFragmentInterface;
-import com.debugcoder.iquit.controllers.ViewFragment;
-import com.debugcoder.iquit.models.AddictionUserModel;
-import com.debugcoder.iquit.models.Utilities;
+import com.spicycoder.iquit.R;
+import com.spicycoder.iquit.controllers.Interfaces.AdapterToFragmentInterface;
+import com.spicycoder.iquit.controllers.ViewFragment;
+import com.spicycoder.iquit.models.AddictionUserModel;
+import com.spicycoder.iquit.models.Utilities;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.joda.time.DateTime;
-
-import java.util.ArrayList;
-import java.util.Date;
 
 public class RelapseListAdapter extends RecyclerView.Adapter<RelapseListAdapter.MyViewHolder> {
     private final AddictionUserModel positionModel;
