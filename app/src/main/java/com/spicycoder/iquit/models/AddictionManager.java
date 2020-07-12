@@ -1,5 +1,10 @@
 package com.spicycoder.iquit.models;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 
 public class AddictionManager {
@@ -38,4 +43,5 @@ public class AddictionManager {
         }
         return false;
     }
+
 }

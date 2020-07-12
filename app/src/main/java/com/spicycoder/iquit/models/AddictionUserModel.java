@@ -15,6 +15,13 @@ public class AddictionUserModel {
     AddictionType addiction;
     String TAG = AddictionUserModel.class.toString();
 
+    public AddictionUserModel(String purpose, ArrayList<DateTime> relapseHistory, DateTime lastRelapse, AddictionType addiction) {
+        this.purpose = purpose;
+        this.relapseHistory = relapseHistory;
+        this.lastRelapse = lastRelapse;
+        this.addiction = addiction;
+    }
+
     public AddictionUserModel(String purpose, DateTime lastRelapse, AddictionType addiction) {
         this.purpose = purpose;
         addRelapse(lastRelapse);

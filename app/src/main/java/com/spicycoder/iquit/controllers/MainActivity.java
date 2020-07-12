@@ -1,5 +1,6 @@
 package com.spicycoder.iquit.controllers;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.spicycoder.iquit.R;
@@ -7,6 +8,7 @@ import com.spicycoder.iquit.controllers.Interfaces.AddDataPassInterface;
 import com.spicycoder.iquit.models.AddictionManager;
 import com.spicycoder.iquit.models.AddictionUserModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.spicycoder.iquit.models.Utilities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -23,6 +25,8 @@ public class MainActivity extends AppCompatActivity implements AddDataPassInterf
     FloatingActionButton fab;
     AddictionManager addictionManager;
     int position=0;
+    SharedPreferences pref;
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +45,10 @@ public class MainActivity extends AppCompatActivity implements AddDataPassInterf
             }
         });
 
-        addictionManager = new AddictionManager();
+        pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+        editor = pref.edit();
 
+        addictionManager = Utilities.retrieveFromStoredData(pref);
     }
 
     @Override
@@ -78,6 +84,24 @@ public class MainActivity extends AppCompatActivity implements AddDataPassInterf
         position = index;
         Navigation.findNavController(MainActivity.this,R.id.nav_host_fragment)
                 .navigate(R.id.ViewFragment);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Utilities.saveToStoredData(addictionManager,editor);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Utilities.saveToStoredData(addictionManager,editor);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Utilities.saveToStoredData(addictionManager,editor);
     }
 
     @Override
