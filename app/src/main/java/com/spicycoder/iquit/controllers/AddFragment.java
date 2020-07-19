@@ -20,6 +20,10 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.spicycoder.iquit.R;
 import com.spicycoder.iquit.controllers.Interfaces.AddDataPassInterface;
 import com.spicycoder.iquit.models.AddictionType;
@@ -85,7 +89,7 @@ public class AddFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setupSpinner(view);
+        retrieveData(view);
         Log.i(TAG, "Add fragment onViewCreated!");
         purposeEt =  view.findViewById(R.id.purpose_edittext);
         lastRelapseDate_tv = view.findViewById(R.id.lastRelapseDate_tv);
@@ -124,6 +128,29 @@ public class AddFragment extends Fragment {
         });
     }
 
+    private void retrieveData(final View view) {
+        DocumentReference docRef = ((MainActivity) getActivity()).db
+                .collection("DataSets")
+                .document("StaticData");
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                        List<String> spinnerArray = (ArrayList<String>) document.get("HabitNames");
+                        setupSpinner(view, spinnerArray);
+                    } else {
+                        Log.d(TAG, "No such document");
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
+    }
+
     public DeviceCheckResult canAddAddiction(String addictionName){
     boolean result = true;
     String resultString = null;
@@ -144,14 +171,7 @@ public class AddFragment extends Fragment {
     return new DeviceCheckResult(result,resultString);
     }
     
-    public void setupSpinner(View view){
-        List<String> spinnerArray =  new ArrayList<String>();
-        spinnerArray.add("Please select a Item");
-        spinnerArray.add("NailBiting");
-        spinnerArray.add("Alcohol");
-        spinnerArray.add("PornFree");
-        spinnerArray.add("SocialMedia");
-        spinnerArray.add("Netflix");
+    public void setupSpinner(View view, List<String> spinnerArray){
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                 getActivity(), android.R.layout.simple_spinner_item, spinnerArray);

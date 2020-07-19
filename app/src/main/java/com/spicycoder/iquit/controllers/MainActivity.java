@@ -3,6 +3,12 @@ package com.spicycoder.iquit.controllers;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.spicycoder.iquit.R;
 import com.spicycoder.iquit.controllers.Interfaces.AddDataPassInterface;
 import com.spicycoder.iquit.models.AddictionManager;
@@ -21,12 +27,15 @@ import android.view.MenuItem;
 
 import net.danlew.android.joda.JodaTimeAndroid;
 
+
 public class MainActivity extends AppCompatActivity implements AddDataPassInterface {
+    private static final String TAG = MainActivity.class.getName();
     FloatingActionButton fab;
     AddictionManager addictionManager;
     int position=0;
     SharedPreferences pref;
     SharedPreferences.Editor editor;
+    FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +44,8 @@ public class MainActivity extends AppCompatActivity implements AddDataPassInterf
         Toolbar toolbar = findViewById(R.id.toolbar);
         JodaTimeAndroid.init(this);
         setSupportActionBar(toolbar);
+        db = FirebaseFirestore.getInstance();
+        readInitialData();
 
         fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -49,6 +60,10 @@ public class MainActivity extends AppCompatActivity implements AddDataPassInterf
         editor = pref.edit();
 
         addictionManager = Utilities.retrieveFromStoredData(pref);
+    }
+
+    private void readInitialData() {
+
     }
 
     @Override
