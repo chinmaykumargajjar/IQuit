@@ -88,7 +88,7 @@ tools:context=".controllers.EmergencyFragment">
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/motivationalTV"
             android:layout_width="298dp"
             android:layout_height="63dp"
             android:layout_marginStart="25dp"

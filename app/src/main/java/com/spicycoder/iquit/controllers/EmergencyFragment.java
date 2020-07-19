@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.text.InputFilter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,11 +17,20 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.spicycoder.iquit.R;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 
 public class EmergencyFragment extends Fragment {
-    TextView addictionName, addictionPurpose, num_of_days;
+    private static final String TAG = EmergencyFragment.class.getName();
+    TextView addictionName, addictionPurpose, num_of_days, motivationalTv;
     MainActivity mainActivity;
     ImageButton ib_edit_purpose;
 
@@ -41,6 +51,7 @@ public class EmergencyFragment extends Fragment {
         mainActivity = (MainActivity) getActivity();
         mainActivity.fab.hide();
         addictionName = view.findViewById(R.id.add_name_emer_tv);
+        motivationalTv = view.findViewById(R.id.motivationalTV);
         addictionPurpose = view.findViewById(R.id.purpose_emergency_tv);
         num_of_days = view.findViewById(R.id.num_days_emr_tv);
         ib_edit_purpose = view.findViewById(R.id.edit_purpose_ib);
@@ -60,6 +71,32 @@ public class EmergencyFragment extends Fragment {
                 .getCurrentStreak()+" Days");
 
         updatePurpose();
+        updateMotivation();
+    }
+
+    private void updateMotivation() {
+        DocumentReference docRef = ((MainActivity) getActivity()).db
+                .collection("DataSets")
+                .document("StaticData");
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Random rand = new Random();
+
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                        List<String> spinnerArray = (ArrayList<String>) document.get("MotivationalQuotes");
+                        motivationalTv.setText(spinnerArray.get(rand.nextInt(spinnerArray.size()-1)));
+                    } else {
+                        Log.d(TAG, "No such document");
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
     }
 
     public void setEditTextMaxLength(int length, EditText et) {
