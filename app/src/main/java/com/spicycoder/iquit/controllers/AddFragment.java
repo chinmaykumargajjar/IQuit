@@ -187,7 +187,7 @@ public class AddFragment extends Fragment {
         final int month = cldr.get(Calendar.MONTH);
         final int year = cldr.get(Calendar.YEAR);
 
-        view.findViewById(R.id.update_date_btn).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.lastRelapseDate_tv).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DatePickerDialog picker = new DatePickerDialog(getActivity(),
