@@ -35,8 +35,8 @@ tools:context=".controllers.EmergencyFragment">
 
         <ImageButton
             android:id="@+id/edit_purpose_ib"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="44dp"
+            android:layout_height="37dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
             android:layout_marginRight="10dp"
@@ -46,7 +46,7 @@ tools:context=".controllers.EmergencyFragment">
 
         <TextView
             android:id="@+id/purpose_emergency_tv"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginLeft="20dp"
@@ -89,8 +89,8 @@ tools:context=".controllers.EmergencyFragment">
 
         <TextView
             android:id="@+id/motivationalTV"
-            android:layout_width="298dp"
-            android:layout_height="63dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginStart="25dp"
             android:layout_marginLeft="25dp"
             android:layout_marginTop="25dp"
